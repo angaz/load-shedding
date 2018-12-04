@@ -5,11 +5,19 @@ from pprint import pprint
 class Timeslot:
     DURATION = 150
 
-    def __init__(self, dom, hour, minute=0, stages=tuple()):
+    def __init__(self, dom, hour, minute=0):
+        print(
+            f'dom: {dom} = {(dom - 1) * 1440}\n'
+            f'hour: {hour} = {hour * 60}\n'
+            f'minute: {minute}'
+        )
         self._minute = ((dom - 1) * 1440) + (hour * 60) + minute
-        self._stages = stages
 
-        print(self._minute)
+        self._stages = tuple(
+            tuple(
+
+            ) for stage in range(1, 6)
+        )
 
     @classmethod
     def now(cls):
@@ -18,11 +26,11 @@ class Timeslot:
 
     @property
     def dom(self):
-        return self._minute // 44640 + 1
+        return (self._minute // 1440) + 1
 
     @property
     def hour(self):
-        return self._minute // 1440
+        return (self._minute % 1440) // 60
 
     @property
     def minute(self):
