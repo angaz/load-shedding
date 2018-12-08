@@ -18,6 +18,12 @@ class LoadShedding extends Component {
     }
   }
 
+  componentDidMount() {
+    fetch('https://api.loadshedding.angusd.com/load_shedding_stage')
+      .then(response => response.json())
+      .then(stage => this.setState({ stage: stage.stage }))
+  }
+
   setGroup = group => {
     localStorage.setItem('group', group);
     this.setState({ group });
