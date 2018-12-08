@@ -19,7 +19,7 @@ class LoadShedding extends Component {
   }
 
   componentDidMount() {
-    fetch('https://api.loadshedding.angusd.com/load_shedding_stage')
+    fetch('https://loadshedding.angusd.com/api/load_shedding_stage')
       .then(response => response.json())
       .then(stage => this.setState({ stage: stage.stage }))
   }
