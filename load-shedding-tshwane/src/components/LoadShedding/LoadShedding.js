@@ -9,6 +9,35 @@ import './LoadShedding.css'
 
 const range = (start, end) => [...Array(end - start).keys()].map(i => i + start);
 
+// eslint-disable-next-line
+const displayStageChangeNotification = (oldStage, newStage) => {
+  Notification.requestPermission(result => {
+    if (result === 'granted') {
+      console.log('YAY! Notification');
+    } else {
+      console.log('No notification :(');
+    }
+  });
+
+  if (Notification.permission === 'granted') {
+    console.log('Notification granted');
+    navigator.serviceWorker.ready.then(reg => {
+      const options = {
+        body: `Eskom has changed load shedding stage from ${oldStage} to ${newStage}`,
+        icon: 'icon512.png',
+        vibrate: [100, 50, 100],
+        data: {
+          dateOfArrival: Date.now(),
+          primaryKey: 1,
+        }
+      };
+
+      console.log('Ssending notification');
+      reg.showNotification(`Load Shedding ${oldStage} => ${newStage}`, options);
+    });
+  }
+};
+
 
 class LoadShedding extends Component {
   constructor() {
@@ -40,7 +69,13 @@ class LoadShedding extends Component {
   }
 
   setStage = stage => {
-    this.setState({ stage });
+    this.setState(previousState => {
+      if (previousState.stage !== stage) {
+        displayStageChangeNotification(previousState.stage, stage);
+      }
+
+      return { stage };
+    });
   }
 
   nextLoadShedding = overrideStage => {
