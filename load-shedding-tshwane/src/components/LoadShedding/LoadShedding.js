@@ -22,6 +22,10 @@ class LoadShedding extends Component {
   }
 
   componentDidMount() {
+    this.fetchStage();
+  }
+
+  fetchStage = () => {
     fetch('https://loadshedding.angusd.com/api/load_shedding_stage')
       .then(response => response.json())
       .then(stage => this.setState({ stage: stage.stage }))
@@ -61,7 +65,9 @@ class LoadShedding extends Component {
           <div>
             <h3>Alternatively, select a stage</h3>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {[...Array(9).keys()].map(i => <span key={i} onClick={() => this.setStage(i)} style={{padding: '0.5em', margin: '0.25em 2em', border: '2px solid white', borderRadius: '0.25em'}}>{i ? `Stage ${i}` : 'No load shedding'}</span>)}
+              <span onClick={this.fetchStage} style={{padding: '0.5em', margin: '0.25em 2em', border: '2px solid white', borderRadius: '0.25em'}}>Fetch Stage</span>
+              <span onClick={() => this.setStage(0)} style={{padding: '0.5em', margin: '0.25em 2em', border: '2px solid white', borderRadius: '0.25em'}}>No Load Shedding</span>
+              {[...Array(8).keys()].map(i => <span key={i} onClick={() => this.setStage(i+1)} style={{padding: '0.5em', margin: '0.25em 2em', border: '2px solid white', borderRadius: '0.25em'}}>{i+1}</span>)}
             </div>
           </div>
         </div>
