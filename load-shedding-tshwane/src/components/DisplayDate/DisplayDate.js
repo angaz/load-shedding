@@ -1,6 +1,6 @@
 import React from 'react';
 
-const GetDate = ({ date }) => {
+const getDate = date => {
   const dom = date.getDate();
   const superscript = ['st','nd','rd'][((dom + 90) % 100 - 10) % 10 - 1] || 'th';
 
@@ -48,7 +48,7 @@ export default ({ date }) => {
   } else {
     return (
       <span>
-        {getDay(date)} <GetDate date={date} /> of {getMonth(date)} {date.getFullYear()}
+        {getDay(date)} {getDate(date)} of {getMonth(date)} {date.getFullYear()}
       </span>
     );
   }
