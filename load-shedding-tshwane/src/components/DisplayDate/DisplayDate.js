@@ -1,9 +1,16 @@
 import React from 'react';
 
 const getDate = date => {
-  date = date.getDate();
+  const dom = date.getDate();
 
-  return (<span>{date}<sup>{['st','nd','rd'][((date + 90) % 100 - 10) % 10 - 1] || 'th'}</sup></span>);
+  return (
+    <span>
+      {dom}
+      <sup>
+        {['st','nd','rd'][((dom + 90) % 100 - 10) % 10 - 1] || 'th'}
+      </sup>
+    </span>
+  );
 }
 
 const getDay = date => [
@@ -31,20 +38,18 @@ const getMonth = date => [
   'Dec',
 ][date.getMonth()];
 
-const daysDiff = (now, date) => Math.floor((now - date) / 86400000);
+const daysDiff = (now, date) => Math.abs(Math.floor((now - date) / 86400000));
 
 export default ({ date }) => {
   let text = '';
+  const nDays = daysDiff(Date.now(), date);
 
-  switch (daysDiff(new Date(), date)) {
-    case 0:
-      text = 'Today'
-      break;
-    case 1:
-      text = 'Tomorrow'
-      break;
-    default:
-      text = `${getDay(date)} ${getDate(date)} of ${getMonth(date)} ${date.getYear()}`
+  if (nDays === 0) {
+    text = 'Today';
+  } else if (nDays === 1) {
+    text = 'Tomorrow';
+  } else {
+    text = `${getDay(date)} ${getDate(date)} of ${getMonth(date)} ${date.getYear()}`;
   }
 
   return (

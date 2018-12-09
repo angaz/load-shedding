@@ -9,7 +9,6 @@ import './LoadShedding.css'
 
 const range = (start, end) => [...Array(end - start).keys()].map(i => i + start);
 
-// eslint-disable-next-line
 const displayStageChangeNotification = (oldStage, newStage) => {
   Notification.requestPermission(result => {
     if (result === 'granted') {
@@ -20,7 +19,6 @@ const displayStageChangeNotification = (oldStage, newStage) => {
   });
 
   if (Notification.permission === 'granted') {
-    console.log('Notification granted');
     navigator.serviceWorker.ready.then(reg => {
       const options = {
         body: `Eskom has changed load shedding stage from ${oldStage} to ${newStage}`,
@@ -29,10 +27,9 @@ const displayStageChangeNotification = (oldStage, newStage) => {
         data: {
           dateOfArrival: Date.now(),
           primaryKey: 1,
-        }
+        },
       };
 
-      console.log('Ssending notification');
       reg.showNotification(`Load Shedding ${oldStage} => ${newStage}`, options);
     });
   }
@@ -70,8 +67,9 @@ class LoadShedding extends Component {
 
   setStage = stage => {
     this.setState(previousState => {
-      if (previousState !== null && stage !== null && previousState.stage !== stage) {
-        displayStageChangeNotification(previousState.stage, stage);
+      const previousStage = previousState.stage;
+      if (previousStage !== null && stage !== null && previousStage !== stage) {
+        displayStageChangeNotification(previousStage, stage);
       }
 
       return { stage };
@@ -140,13 +138,13 @@ class LoadShedding extends Component {
     }
 
     const First4Stages = (
-      <div style={{marginTop: '2em'}}>
+      <div style={{ marginTop: '2em' }}>
         {
           range(1, 5).map(stage => {
             const currentTimeSlot = this.nextLoadShedding(stage);
 
             return (
-              <div key={stage} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0.5em'}}>
+              <div key={stage} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5em 2.5em'}}>
                 <div style={{marginRight: '1em'}}>
                   <span>Stage {stage}</span>
                 </div>
