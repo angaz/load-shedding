@@ -57,7 +57,7 @@ class LoadShedding extends Component {
   fetchStage = () => {
     fetch('https://loadshedding.angusd.com/api/load_shedding_stage')
       .then(response => response.json())
-      .then(stage => this.setState({ stage: stage.stage }))
+      .then(stage => this.setStage(stage.stage));
   }
 
   setGroup = group => {
@@ -70,7 +70,7 @@ class LoadShedding extends Component {
 
   setStage = stage => {
     this.setState(previousState => {
-      if (previousState.stage !== stage) {
+      if (previousState !== null && stage !== null && previousState.stage !== stage) {
         displayStageChangeNotification(previousState.stage, stage);
       }
 
