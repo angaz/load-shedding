@@ -1,14 +1,12 @@
 import React from 'react';
 
-const getDate = date => {
+const GetDate = ({ date }) => {
   const dom = date.getDate();
+  const superscript = ['st','nd','rd'][((dom + 90) % 100 - 10) % 10 - 1] || 'th';
 
   return (
     <span>
-      {dom}
-      <sup>
-        {['st','nd','rd'][((dom + 90) % 100 - 10) % 10 - 1] || 'th'}
-      </sup>
+      {dom} <sup>{superscript}</sup>
     </span>
   );
 }
@@ -41,20 +39,17 @@ const getMonth = date => [
 const daysDiff = (now, date) => Math.abs(Math.floor((now - date) / 86400000));
 
 export default ({ date }) => {
-  let text = '';
   const nDays = daysDiff(Date.now(), date);
 
   if (nDays === 0) {
-    text = 'Today';
+    return <span>Today</span>;
   } else if (nDays === 1) {
-    text = 'Tomorrow';
+    return <span>Tomorrow</span>;
   } else {
-    text = `${getDay(date)} ${getDate(date)} of ${getMonth(date)} ${date.getYear()}`;
+    return (
+      <span>
+        {getDay(date)} <GetDate date={date} /> of {getMonth(date)} {date.getFullYear()}
+      </span>
+    );
   }
-
-  return (
-    <div>
-      <span>{text}</span>
-    </div>
-  )
 };
