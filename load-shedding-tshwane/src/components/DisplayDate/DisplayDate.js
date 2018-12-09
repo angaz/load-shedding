@@ -31,8 +31,25 @@ const getMonth = date => [
   'Dec',
 ][date.getMonth()];
 
-export default ({ date }) => (
-  <div>
-    <span>{getDay(date)} {getDate(date)} of {getMonth(date)} {date.getYear()}</span>
-  </div>
-);
+const daysDiff = (now, date) => Math.floor((now - date) / 86400000);
+
+export default ({ date }) => {
+  let text = '';
+
+  switch (daysDiff(new Date(), date)) {
+    case 0:
+      text = 'Today'
+      break;
+    case 1:
+      text = 'Tomorrow'
+      break;
+    default:
+      text = `${getDay(date)} ${getDate(date)} of ${getMonth(date)} ${date.getYear()}`
+  }
+
+  return (
+    <div>
+      <span>{text}</span>
+    </div>
+  )
+};
