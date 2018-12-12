@@ -106,7 +106,7 @@ function registerValidSW(swUrl, config) {
       }).then(pushSubscription => {
         console.log(pushSubscription);
 
-        this.addEventListener('push', event => console.log(event.data));
+        registration.addEventListener('push', event => console.log(event.data));
       }, error => {
         console.log(error);
       });
