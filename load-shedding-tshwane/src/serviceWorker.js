@@ -63,6 +63,7 @@ function registerValidSW(swUrl, config) {
         if (installingWorker == null) {
           return;
         }
+
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
@@ -92,6 +93,23 @@ function registerValidSW(swUrl, config) {
           }
         };
       };
+
+      registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: new Uint8Array([
+          4, 15, 131, 29, 78, 176, 50, 238, 144, 2, 132, 144, 211, 13, 49,
+          236, 73, 80, 24, 0, 211, 239, 236, 153, 37, 220, 152, 243, 126,
+          249, 177, 43, 178, 213, 238, 140, 114, 108, 214, 34, 39, 28, 64,
+          213, 108, 173, 88, 110, 62, 1, 212, 86, 140, 37, 182, 233, 30, 22,
+          211, 168, 72, 202, 9, 106, 108,
+        ]),
+      }).then(pushSubscription => {
+        console.log(pushSubscription);
+
+        this.addEventListener('push', event => console.log(event.data));
+      }, error => {
+        console.log(error);
+      });
     })
     .catch(error => {
       console.error('Error during service worker registration:', error);
