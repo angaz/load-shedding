@@ -1,6 +1,4 @@
 .vscode
 .venv
 node_modules
-
-/target
-**/*.rs.bk
+database.pickle
