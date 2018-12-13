@@ -21,7 +21,7 @@ const isLocalhost = Boolean(
 );
 
 export function register(config) {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if ((process.env.NODE_ENV === 'production' || isLocalhost) && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
@@ -105,8 +105,15 @@ function registerValidSW(swUrl, config) {
         ]),
       }).then(pushSubscription => {
         console.log(pushSubscription);
-
-        registration.addEventListener('push', event => console.log(event.data));
+        fetch('https://loadshedding.angusd.com/api/subscribe', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(pushSubscription.toJSON())
+        }).then(res => res.json())
+          .then(res => console.log(res));
       }, error => {
         console.log(error);
       });
