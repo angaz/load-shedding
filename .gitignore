@@ -2,3 +2,4 @@
 .venv
 node_modules
 database.pickle
+__pycache__
