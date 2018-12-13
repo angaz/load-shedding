@@ -44,7 +44,7 @@ async def load_shedding_stage(request):
 
 async def subscribe(request):
     try:
-        endpoint = await request.json()['endpoint']
+        endpoint = (await request.json())['endpoint']
         print('New subscription: {}'.format(endpoint))
 
         notification_clients = db_get('notification_clients')
