@@ -5,7 +5,7 @@ DATABASE_FILE = 'database.pickle'
 DATA = {
     'use_eskom': True,
     'stage': 0,
-    'notification_clients': [],
+    'notification_clients': {},
 }
 
 

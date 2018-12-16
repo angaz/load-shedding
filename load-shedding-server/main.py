@@ -19,13 +19,13 @@ async def load_shedding_stage(request):
 
 async def subscribe(request):
     try:
-        endpoint = (await request.json())['endpoint']
-        print('New subscription: {}'.format(endpoint))
+        sub_json = await request.json()
+        print(f'New subscription: {sub_json}')
 
         notification_clients = db_get('notification_clients')
 
-        if endpoint not in notification_clients:
-            notification_clients.append(endpoint)
+        if sub_json['endpoint'] not in notification_clients:
+            notification_clients[sub_json['endpoint']] = sub_json
             await async_save_data(asyncio.get_event_loop())
 
         return web.json_response({
