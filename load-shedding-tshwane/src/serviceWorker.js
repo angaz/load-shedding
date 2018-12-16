@@ -104,7 +104,8 @@ function registerValidSW(swUrl, config) {
           211, 168, 72, 202, 9, 106, 108,
         ]),
       }).then(pushSubscription => {
-        console.log(pushSubscription);
+        console.log(pushSubscription.toJSON());
+
         fetch('https://loadshedding.angusd.com/api/subscribe', {
           method: 'POST',
           headers: {
