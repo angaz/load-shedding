@@ -2,3 +2,4 @@ aiodns==1.1.1
 aiohttp==3.4.4
 aiosqlite==0.8.0
 cchardet==2.1.4
+pywebpush==1.7.0
