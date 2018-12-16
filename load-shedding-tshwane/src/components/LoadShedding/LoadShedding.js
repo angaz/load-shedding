@@ -9,32 +9,6 @@ import './LoadShedding.css'
 
 const range = (start, end) => [...Array(end - start).keys()].map(i => i + start);
 
-const displayStageChangeNotification = (oldStage, newStage) => {
-  Notification.requestPermission(result => {
-    if (result === 'granted') {
-      console.log('YAY! Notification');
-    } else {
-      console.log('No notification :(');
-    }
-  });
-
-  if (Notification.permission === 'granted') {
-    navigator.serviceWorker.ready.then(reg => {
-      const options = {
-        body: `Eskom has changed load shedding stage from ${oldStage} to ${newStage}`,
-        icon: 'icon512.png',
-        vibrate: [100, 50, 100],
-        data: {
-          dateOfArrival: Date.now(),
-          primaryKey: 1,
-        },
-      };
-
-      reg.showNotification(`Load Shedding ${oldStage} => ${newStage}`, options);
-    });
-  }
-};
-
 
 class LoadShedding extends Component {
   constructor() {
@@ -65,16 +39,7 @@ class LoadShedding extends Component {
     });
   }
 
-  setStage = stage => {
-    this.setState(previousState => {
-      const previousStage = previousState.stage;
-      if (previousStage !== null && stage !== null && previousStage !== stage) {
-        displayStageChangeNotification(previousStage, stage);
-      }
-
-      return { stage };
-    });
-  }
+  setStage = stage => this.setState({ stage });
 
   nextLoadShedding = overrideStage => {
     const { stage, group } = this.state;
