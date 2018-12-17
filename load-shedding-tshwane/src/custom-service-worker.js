@@ -14,7 +14,7 @@ self.addEventListener('push', event => {
   if (eventJson.push_type === 'stage_change') {
     const oldStage = localStorage.getItem('stage') || 'no load shedding';
     const newStage = eventJson.stage || 'no load shedding';
-    localStorage.setItem('stage', newStage);
+    localStorage.setItem('stage', eventJson.stage);
 
     notification.title = `Stage ${oldStage} => ${newStage}`;
     notification.options.body = `Eskom has changed the load shedding stage ${oldStage} to ${newStage}`;
