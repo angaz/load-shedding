@@ -5,6 +5,7 @@ from aiohttp import web
 
 from db import load_data, async_save_data, db_get
 from update_stage import update_stage
+from async_web_push import Subscription
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -23,9 +24,10 @@ async def subscribe(request):
         print(f'New subscription: {sub_json}')
 
         notification_clients = db_get('notification_clients')
+        endpoint_hash = hash(sub_json['endpoint'])
 
-        if sub_json['endpoint'] not in notification_clients:
-            notification_clients[sub_json['endpoint']] = sub_json
+        if endpoint_hash not in notification_clients:
+            notification_clients[endpoint_hash] = Subscription(sub_json)
             await async_save_data(asyncio.get_event_loop())
 
         return web.json_response({
