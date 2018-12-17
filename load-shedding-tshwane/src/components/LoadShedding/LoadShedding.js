@@ -15,8 +15,8 @@ class LoadShedding extends Component {
     super();
 
     this.state = {
-      group: parseInt(localStorage.getItem('group')) || null,
-      stage: parseInt(localStorage.getItem('stage')) || null,
+      group: parseInt(localStorage.getItem('group')),
+      stage: parseInt(localStorage.getItem('stage')),
       filterGroups: '',
     }
   }
@@ -41,9 +41,7 @@ class LoadShedding extends Component {
 
   setStage = stage => {
     localStorage.setItem('stage', stage);
-    this.setState({
-      stage,
-    });
+    this.setState({ stage });
   }
 
   nextLoadShedding = overrideStage => {
