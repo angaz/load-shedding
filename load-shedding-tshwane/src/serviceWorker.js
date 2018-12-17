@@ -104,7 +104,6 @@ function registerValidSW(swUrl, config) {
           211, 168, 72, 202, 9, 106, 108,
         ]),
       }).then(pushSubscription => {
-
         fetch('https://loadshedding.angusd.com/api/subscribe', {
           method: 'POST',
           headers: {
@@ -112,7 +111,7 @@ function registerValidSW(swUrl, config) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(pushSubscription.toJSON())
-        }).then(res => res.json())
+        });
       }, error => {
         console.log(error);
       });
