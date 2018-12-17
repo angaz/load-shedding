@@ -59,7 +59,7 @@ class LoadShedding extends Component {
   }
 
   render() {
-    if (this.state.stage === null) {
+    if (isNaN(this.state.stage)) {
       return (
         <div>
           <h2>Getting load shedding stage...</h2>
@@ -75,7 +75,7 @@ class LoadShedding extends Component {
       )
     }
 
-    if (this.state.group === null) {
+    if (isNaN(this.state.group)) {
       return (
         <div>
           <h1>Please select a Group:</h1>
