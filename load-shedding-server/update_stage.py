@@ -13,17 +13,9 @@ STATUS_URL = 'http://loadshedding.eskom.co.za/LoadShedding/getstatus'
 
 async def push(old_stage, new_stage):
     push_data = {
-        'title': f'Stage {old_stage} => {new_stage}',
-        'options': {
-            'body': (
-                f'Eskom has changed the load shedding stage {old_stage} '
-                f'load shedding to stage {new_stage}'
-            ),
-            'icon': 'icon192.png',
-            'badge': 'icon192.png',
-        },
+        'push_type': 'stage_change',
+        'stage': new_stage,
     }
-
 
     await web_push_many(
         db_get('notification_clients').values(),
