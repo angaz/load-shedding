@@ -1,4 +1,5 @@
 import asyncio
+import json
 from datetime import datetime
 
 from aiohttp import ClientSession
@@ -19,13 +20,14 @@ async def push(old_stage, new_stage):
                 f'load shedding to stage {new_stage}'
             ),
             'icon': 'icon192.png',
-            'badge': 'icon192.png'
-        }
+            'badge': 'icon192.png',
+        },
     }
 
-    print(push_data)
 
-    await web_push_many(db_get('notification_clients').values(), push_data)
+    await web_push_many(
+        db_get('notification_clients').values(),
+        json.dumps(push_data, separators=(',', ':')).encode())
 
 
 async def update_stage():
@@ -44,7 +46,7 @@ async def update_stage():
                             f'Stage changed from {old_stage} to {stage}')
                         db_set('stage', stage)
                         await async_save_data(loop)
-                    await push(old_stage, stage)
+                        await push(old_stage, stage)
 
                 except ValueError as e:
                     print(f'[{datetime.now()}] {e}')

@@ -10,7 +10,7 @@ from cryptography.hazmat.primitives.asymmetric import ec
 from py_vapid import Vapid
 
 VAPID_PRIVATE_KEY = environ['VAPID_PRIVATE_KEY']
-VAPID_AUD = 'mailto:' + environ['VAPID_AUD']
+VAPID_SUB = 'mailto:' + environ['VAPID_SUB']
 
 
 class SubscriptionException(Exception):
@@ -30,8 +30,8 @@ class Subscription:
         keys = subscription['keys']
 
         self.endpoint = urlparse(subscription['endpoint'])
-        self.client_auth = unpadded_urlsafe_b64decode(keys['auth'])
-        self.client_key = unpadded_urlsafe_b64decode(keys['p256dh'])
+        self.client_auth = unpadded_urlsafe_b64decode(keys['auth'].encode('utf8'))
+        self.client_key = unpadded_urlsafe_b64decode(keys['p256dh'].encode('utf8'))
 
     def _encrypt(self, data):
         transaction_private_key = ec.generate_private_key(
@@ -49,7 +49,9 @@ class Subscription:
             keyid=transaction_public_key.decode(),
             private_key=transaction_private_key,
             dh=self.client_key,
-            auth_secret=self.client_auth)
+            auth_secret=self.client_auth,
+            version='aesgcm',
+        )
 
         return transaction_public_key, salt, encrypted_payload
 
@@ -57,15 +59,16 @@ class Subscription:
         transaction_public_key, salt, encrypted_payload = self._encrypt(data)
 
         headers = {
-            'Authentication': vapid_headers['Authentication'],
+            'Authorization': vapid_headers['Authorization'],
             'Crypto-Key': '{};dh={}'.format(
-                vapid_headers['Crypto-Key'], transaction_public_key),
+                vapid_headers['Crypto-Key'], transaction_public_key.decode('utf8')),
+            'Encryption': 'salt=' + unpadded_urlsafe_b64encode(salt).decode('utf8'),
             'Content-Encoding': 'aesgcm',
-            'Encryption': 'salt=' + salt.decode('utf8'),
+            'ttl': '30',
         }
 
         async with session.post(
-                self.endpoint, data=encrypted_payload, headers=headers) as r:
+                self.endpoint.geturl(), data=encrypted_payload, headers=headers) as r:
             return hash(self.endpoint), r.status in (201, )
 
 
@@ -77,7 +80,7 @@ async def limited_push(sem, sub, data, vapid_headers, session):
 async def web_push_many(subscriptions, data):
     claims = {
         'aud': 'https://fcm.googleapis.com',
-        'sub': VAPID_AUD,
+        'sub': VAPID_SUB,
     }
 
     vapid = Vapid.from_string(VAPID_PRIVATE_KEY)
