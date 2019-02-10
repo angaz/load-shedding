@@ -1,0 +1,29 @@
+.SelectGroup input {
+    width: 90%;
+    font-size: 1.5em;
+    border: none;
+    padding: 0.25em;
+    border-radius: 0.25em;
+}
+
+.SelectGroup table {
+    border-spacing: 0 0.5em;
+    padding: 0 0.5em;
+    width: 100%;
+}
+
+.SelectGroup table tbody tr td {
+    padding: 0.5em;
+    border: 2px solid white;
+}
+
+.SelectGroup table tbody tr td.Suburb {
+    text-align: left;
+    border-right: none;
+    border-radius: 0.25em 0 0 0.25em;
+}
+
+.SelectGroup table tbody tr td.Group {
+    border-left: none;
+    border-radius: 0 0.25em 0.25em 0;
+}

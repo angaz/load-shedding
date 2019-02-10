@@ -1,0 +1,19 @@
+.First4Stages {
+    margin-top: 2em;
+}
+
+.First4Stages .Row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 2.5em;
+}
+
+.First4Stages .Row .StageNo {
+    margin-right: 1em;
+}
+
+.First4Stages .Row .TimeSlot {
+    display: flex;
+    flex-direction: column;
+}

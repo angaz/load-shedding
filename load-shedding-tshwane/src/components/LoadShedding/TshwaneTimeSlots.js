@@ -177,8 +177,6 @@ const range = (start, end) => [...Array(end - start).keys()].map(i => i + start)
 export default (stage, group, currentDate) => {
   let currentMinute = dateToMinute(currentDate);
   let date = new Date(currentDate);
-
-  stage = stage - 1;
   let today = true;
 
   while (true) {
@@ -189,7 +187,6 @@ export default (stage, group, currentDate) => {
       if (today && minute > end) {
         continue;
       }
-
 
       for (const currentStage of (stage ? range(0, stage) : [0])) {
         if (stages[currentStage][dom] === group) {
