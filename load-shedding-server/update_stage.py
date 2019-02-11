@@ -45,7 +45,7 @@ async def update_stage():
                         print(f'[{datetime.now()}] {e}')
                         continue
 
-            except asyncio.TimeoutError as e:
+            except Exception as e:
                 print(f'[{datetime.now()}] {e}')
 
             await asyncio.sleep(300)
