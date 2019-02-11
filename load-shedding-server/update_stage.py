@@ -1,6 +1,8 @@
 import asyncio
 import json
+from urllib.parse import urlparse
 from datetime import datetime
+from time import time
 
 from aiohttp import ClientSession
 
@@ -8,7 +10,11 @@ from db import db_get, db_set, async_save_data
 from async_web_push import web_push_many
 
 
-STATUS_URL = 'http://loadshedding.eskom.co.za/LoadShedding/getstatus'
+STATUS_URL = urlparse('http://loadshedding.eskom.co.za/LoadShedding/GetStatus')
+
+
+def status_url():
+    return STATUS_URL + f'?_={int(time() * 1000)}'
 
 
 async def push(old_stage, new_stage):
@@ -28,7 +34,7 @@ async def update_stage():
     async with ClientSession(loop=loop) as session:
         while True:
             try:
-                async with session.get(STATUS_URL) as response:
+                async with session.get(status_url()) as response:
                     stage = await response.text()
                     try:
                         stage = int(stage) - 1
