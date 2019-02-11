@@ -27,21 +27,25 @@ async def update_stage():
 
     async with ClientSession(loop=loop) as session:
         while True:
-            async with session.get(STATUS_URL) as response:
-                stage = await response.text()
-                try:
-                    stage = int(stage) - 1
-                    old_stage = db_get('stage')
-                    if stage != old_stage:
-                        print(
-                            f'[{datetime.now()}] '
-                            f'Stage changed from {old_stage} to {stage}')
-                        db_set('stage', stage)
-                        await async_save_data(loop)
-                        await push(old_stage, stage)
+            try:
+                async with session.get(STATUS_URL) as response:
+                    stage = await response.text()
+                    try:
+                        stage = int(stage) - 1
+                        old_stage = db_get('stage')
+                        if stage != old_stage:
+                            print(
+                                f'[{datetime.now()}] '
+                                f'Stage changed from {old_stage} to {stage}')
+                            db_set('stage', stage)
+                            await async_save_data(loop)
+                            await push(old_stage, stage)
 
-                except ValueError as e:
-                    print(f'[{datetime.now()}] {e}')
-                    continue
+                    except ValueError as e:
+                        print(f'[{datetime.now()}] {e}')
+                        continue
+
+            except asyncio.TimeoutError as e:
+                print(f'[{datetime.now()}] {e}')
 
             await asyncio.sleep(300)
