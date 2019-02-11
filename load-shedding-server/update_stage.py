@@ -1,6 +1,5 @@
 import asyncio
 import json
-from urllib.parse import urlparse
 from datetime import datetime
 from time import time
 
@@ -10,7 +9,7 @@ from db import db_get, db_set, async_save_data
 from async_web_push import web_push_many
 
 
-STATUS_URL = urlparse('http://loadshedding.eskom.co.za/LoadShedding/GetStatus')
+STATUS_URL = 'http://loadshedding.eskom.co.za/LoadShedding/GetStatus'
 
 
 def status_url():
