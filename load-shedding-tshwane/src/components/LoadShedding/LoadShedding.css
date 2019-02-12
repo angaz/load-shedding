@@ -1,7 +1,18 @@
+@media (min-width: 1024px) {
+    .FooterButtons {
+        width: 1024px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .FooterButtons {
+        width: 100%;
+    }
+}
+
 .FooterButtons {
     position: absolute;
     bottom: 0;
-    width: 100%;
 }
 
 .FooterButtons .Container {
