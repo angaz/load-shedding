@@ -67,7 +67,7 @@ export default () => {
           <h1>Yay! No load shedding!</h1>
         </div>
 
-        <First4Stages />
+        <First4Stages nextLoadShedding={nextLoadShedding} />
         <FooterButtons />
       </div>
     );
