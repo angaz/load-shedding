@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import FindNextTimeSlot from './TshwaneTimeSlots';
+import FindNextTimeSlots from './TshwaneTimeSlots';
 import DisplayDate from '../DisplayDate/DisplayDate';
 import First4Stages from './First4Stages';
 import SelectGroup from './SelectGroup';
@@ -39,7 +39,9 @@ export default () => {
 
   const nextLoadShedding = overrideStage => {
     if ((overrideStage || stage) && group) {
-      return FindNextTimeSlot(overrideStage || stage, group, new Date());
+      const timeslots = FindNextTimeSlots(overrideStage || stage, group, new Date());
+      console.log(timeslots);
+      return timeslots;
     }
   }
 
@@ -73,20 +75,23 @@ export default () => {
     );
   }
 
-  const nextTimeSlot = nextLoadShedding();
+  const nextTimeSlots = nextLoadShedding();
 
   return (
     <div>
       <h1>Stage {stage}</h1>
-      <h2 style={{color: nextTimeSlot.current ? 'red' : 'inherit'}}>
-        There is currently {nextTimeSlot.current ? '' : 'no'} load shedding
+      <h2 style={{color: nextTimeSlots[0].current ? 'red' : 'inherit'}}>
+        There is currently {nextTimeSlots[0].current ? '' : 'no'} load shedding
       </h2>
 
       <div style={{marginTop: '1em'}}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h4>Next Load Shedding is scheduled for</h4>
-          <DisplayDate date={nextTimeSlot.date} />
-          <span>{nextTimeSlot.timeslot[0]} to {nextTimeSlot.timeslot[1]}</span>
+          <DisplayDate date={nextTimeSlots[0].date} />
+          <span>{nextTimeSlots[0].timeslot[0]} to {nextTimeSlots[0].timeslot[1]}</span>
+          <h4> then </h4>
+          <DisplayDate date={nextTimeSlots[1].date} />
+          <span>{nextTimeSlots[1].timeslot[0]} to {nextTimeSlots[1].timeslot[1]}</span>
         </div>
 
         <First4Stages nextLoadShedding={nextLoadShedding} />

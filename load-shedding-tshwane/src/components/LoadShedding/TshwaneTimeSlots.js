@@ -174,10 +174,11 @@ const dateToMinute = date => date.getHours() * 60 + date.getMinutes();
 
 const range = (start, end) => [...Array(end - start).keys()].map(i => i + start);
 
-export default (stage, group, currentDate) => {
+export default (stage, group, currentDate, length=2) => {
   let currentMinute = dateToMinute(currentDate);
   let date = new Date(currentDate);
   let today = true;
+  let ret = [];
 
   while (true) {
     const dom = date.getDate() - 1;
@@ -190,11 +191,19 @@ export default (stage, group, currentDate) => {
 
       for (const currentStage of (stage ? range(0, stage) : [0])) {
         if (stages[currentStage][dom] === group) {
-          return {
+          let newTS = {
             timeslot,
             current: (between(currentMinute, start, end) || between(currentMinute + 1440, start, end)),
             date,
           };
+
+          if (ret.length === 0 || newTS.timeslot[0] !== ret[ret.length - 1].timeslot[0]) {
+            ret.push(newTS);
+          }
+
+          if (ret.length === length) {
+            return ret;
+          }
         }
       }
     }
