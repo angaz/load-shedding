@@ -10,10 +10,10 @@
     }
 }
 
-.FooterButtons {
+/* .FooterButtons {
     position: absolute;
     bottom: 0;
-}
+} */
 
 .FooterButtons .Container {
     display: flex;

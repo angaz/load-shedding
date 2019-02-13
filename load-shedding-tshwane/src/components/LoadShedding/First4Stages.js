@@ -16,12 +16,12 @@ export default ({ nextLoadShedding }) => {
         <div className="StageNo">
           <span>Stage {stage}</span>
         </div>
-        <div>
+        <div className="TimeSlots">
           {
             timeslots.map(timeslot => (
-              <div key={`${stage}:${timeslot.timeslot[0]}`}>
+              <div className="TimeSlot" key={`${stage}:${timeslot.timeslot[0]}`}>
                 <DisplayDate date={timeslot.date} />
-                <span> {timeslot.timeslot[0]} to {timeslot.timeslot[1]}</span>
+                <span style={{ paddingLeft: '1em' }}>{timeslot.timeslot[0]} - {timeslot.timeslot[1]}</span>
               </div>
             ))
           }

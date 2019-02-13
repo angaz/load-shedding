@@ -12,13 +12,13 @@ const getDate = date => {
 }
 
 const getDay = date => [
-  'Sun',
-  'Mon',
-  'Tue',
-  'Wed',
-  'Thu',
-  'Fri',
-  'Sat',
+  'Sunday',
+  'Monday',
+  'Tueday',
+  'Wedday',
+  'Thusday',
+  'Friday',
+  'Saturday',
 ][date.getDay()];
 
 const getMonth = date => [
@@ -38,13 +38,17 @@ const getMonth = date => [
 
 const daysDiff = (now, date) => Math.abs(Math.floor((now - date) / 86400000));
 
-export default ({ date }) => {
+export default ({ date, style }) => {
   const nDays = daysDiff(Date.now(), date);
 
   if (nDays === 0) {
     return <span>Today</span>;
   } else if (nDays === 1) {
     return <span>Tomorrow</span>;
+  } else if (nDays < 7) {
+    return <span>{getDay(date)}</span>;
+  } else if (nDays < 14) {
+    return <span>Next {getDay(date)}</span>;
   } else {
     return (
       <span>

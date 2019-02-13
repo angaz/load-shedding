@@ -78,20 +78,28 @@ export default () => {
   const nextTimeSlots = nextLoadShedding();
 
   return (
-    <div>
+    <div style={{ minHeight: '100%' }}>
       <h1>Stage {stage}</h1>
       <h2 style={{color: nextTimeSlots[0].current ? 'red' : 'inherit'}}>
         There is currently {nextTimeSlots[0].current ? '' : 'no'} load shedding
       </h2>
 
-      <div style={{marginTop: '1em'}}>
+      <div style={{display: 'flex', flexDirection: 'column' }}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h4>Next Load Shedding is scheduled for</h4>
-          <DisplayDate date={nextTimeSlots[0].date} />
-          <span>{nextTimeSlots[0].timeslot[0]} to {nextTimeSlots[0].timeslot[1]}</span>
-          <h4> then </h4>
-          <DisplayDate date={nextTimeSlots[1].date} />
-          <span>{nextTimeSlots[1].timeslot[0]} to {nextTimeSlots[1].timeslot[1]}</span>
+          <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <DisplayDate date={nextTimeSlots[0].date} />
+              <span>{nextTimeSlots[0].timeslot[0]} - {nextTimeSlots[0].timeslot[1]}</span>
+            </div>
+
+            <span><strong>then</strong></span>
+
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <DisplayDate date={nextTimeSlots[1].date} />
+              <span>{nextTimeSlots[1].timeslot[0]} - {nextTimeSlots[1].timeslot[1]}</span>
+            </div>
+          </div>
         </div>
 
         <First4Stages nextLoadShedding={nextLoadShedding} />
