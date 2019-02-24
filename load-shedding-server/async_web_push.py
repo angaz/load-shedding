@@ -56,19 +56,19 @@ class Subscription:
         return transaction_public_key, salt, encrypted_payload
 
     async def send(self, data, vapid_headers, session):
-        transaction_public_key, salt, encrypted_payload = self._encrypt(data)
+        transaction_pk, salt, payload = self._encrypt(data)
 
+        url = self.endpoint.geturl()
         headers = {
             'Authorization': vapid_headers['Authorization'],
             'Crypto-Key': '{};dh={}'.format(
-                vapid_headers['Crypto-Key'], transaction_public_key.decode('utf8')),
-            'Encryption': 'salt=' + unpadded_urlsafe_b64encode(salt).decode('utf8'),
+                vapid_headers['Crypto-Key'], transaction_pk.decode()),
+            'Encryption': 'salt=' + unpadded_urlsafe_b64encode(salt).decode(),
             'Content-Encoding': 'aesgcm',
             'ttl': '30',
         }
 
-        async with session.post(
-                self.endpoint.geturl(), data=encrypted_payload, headers=headers) as r:
+        async with session.post(url, data=payload, headers=headers) as r:
             return hash(self.endpoint), r.status in (201, )
 
 

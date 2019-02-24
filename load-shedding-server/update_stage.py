@@ -39,9 +39,13 @@ async def update_stage():
                         stage = int(stage) - 1
                         old_stage = db_get('stage')
                         if stage != old_stage:
+                            if stage < 0:
+                                raise ValueError('Stage less than 0')
+
                             print(
                                 f'[{datetime.now()}] '
                                 f'Stage changed from {old_stage} to {stage}')
+
                             db_set('stage', stage)
                             await async_save_data(loop)
                             await push(old_stage, stage)

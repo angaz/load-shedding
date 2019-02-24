@@ -12,12 +12,11 @@ self.addEventListener('push', event => {
   };
 
   if (eventJson.push_type === 'stage_change') {
-    const oldStage = localStorage.getItem('stage') || 'no load shedding';
-    const newStage = eventJson.stage || 'no load shedding';
-    localStorage.setItem('stage', eventJson.stage);
+    const newStage = eventJson.stage;
 
-    notification.title = `Stage ${oldStage} => ${newStage}`;
-    notification.options.body = `Eskom has changed the load shedding stage ${oldStage} to ${newStage}`;
+    notification.title = newStage
+      ? `Load shedding stage: ${newStage}`
+      : 'Load shedding has ended for today';
 
     if (newStage === 0) {
       notification.options.badge = 'power192.png';
