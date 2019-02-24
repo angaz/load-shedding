@@ -12,8 +12,8 @@ import './LoadShedding.css'
 export default () => {
   const [ group, setGroupState ] = useState(parseInt(localStorage.getItem('group')) || null);
   const [ stage, setStageState ] = useState(parseInt(localStorage.getItem('stage')) || null);
-  const [ selectGroup, setSelectGroup ] = useState(Boolean(group));
-  const [ selectStage, setSelectStage ] = useState(Boolean(stage || stage !== 0));
+  const [ selectGroup, setSelectGroup ] = useState(false);
+  const [ selectStage, setSelectStage ] = useState(false);
 
   useEffect(() => {
     fetchStage();
