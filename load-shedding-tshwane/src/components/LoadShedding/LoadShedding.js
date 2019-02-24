@@ -12,6 +12,8 @@ import './LoadShedding.css'
 export default () => {
   const [ group, setGroupState ] = useState(parseInt(localStorage.getItem('group')) || null);
   const [ stage, setStageState ] = useState(parseInt(localStorage.getItem('stage')) || null);
+  const [ selectGroup, setSelectGroup ] = useState(Boolean(group));
+  const [ selectStage, setSelectStage ] = useState(Boolean(stage || stage !== 0));
 
   useEffect(() => {
     fetchStage();
@@ -30,17 +32,18 @@ export default () => {
   const setGroup = group => {
     localStorage.setItem('group', group);
     setGroupState(group);
+    setSelectGroup(false);
   }
 
   const setStage = stage => {
     localStorage.setItem('stage', stage);
     setStageState(stage);
+    setSelectStage(false);
   }
 
   const nextLoadShedding = overrideStage => {
     if ((overrideStage || stage) && group) {
       const timeslots = FindNextTimeSlots(overrideStage || stage, group, new Date());
-      console.log(timeslots);
       return timeslots;
     }
   }
@@ -48,17 +51,17 @@ export default () => {
   const FooterButtons = () => (
     <div className="FooterButtons">
       <div className="Container">
-        <button onClick={() => setGroup(null)}>Select Group</button>
-        <button onClick={() => setStage(null)}>Select Stage</button>
+        <button onClick={() => setSelectGroup(true)}>Select Group</button>
+        <button onClick={() => setSelectStage(true)}>Select Stage</button>
       </div>
     </div>
   );
 
-  if (group === null) {
+  if (selectGroup || group === null) {
     return <SelectGroup setGroup={setGroup} />
   }
 
-  if (stage === null) {
+  if (selectStage || stage === null) {
     return <SelectStage fetchStage={fetchStage} setStage={setStage} />
   }
 
@@ -90,14 +93,14 @@ export default () => {
           <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <DisplayDate date={nextTimeSlots[0].date} />
-              <span>{nextTimeSlots[0].timeslot[0]} - {nextTimeSlots[0].timeslot[1]}</span>
+              <span>{nextTimeSlots[0].timeslot.start} - {nextTimeSlots[0].timeslot.end}</span>
             </div>
 
             <span><strong>then</strong></span>
 
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <DisplayDate date={nextTimeSlots[1].date} />
-              <span>{nextTimeSlots[1].timeslot[0]} - {nextTimeSlots[1].timeslot[1]}</span>
+              <span>{nextTimeSlots[1].timeslot.start} - {nextTimeSlots[1].timeslot.end}</span>
             </div>
           </div>
         </div>

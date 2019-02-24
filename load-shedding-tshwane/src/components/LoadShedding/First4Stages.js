@@ -7,6 +7,13 @@ import './First4Stages.css';
 
 const range = (start, end) => [...Array(end - start).keys()].map(i => i + start);
 
+const MapTimeslots = ({ timeslots, stage }) => timeslots.map(timeslot => (
+  <div className="TimeSlot" key={`${stage}:${timeslot.timeslot.start}`}>
+    <DisplayDate date={timeslot.date} />
+    <span style={{ paddingLeft: '1em' }}>{timeslot.timeslot.start} - {timeslot.timeslot.end}</span>
+  </div>
+));
+
 
 export default ({ nextLoadShedding }) => {
   const Rows = () => range(1, 5)
@@ -17,14 +24,7 @@ export default ({ nextLoadShedding }) => {
           <span>Stage {stage}</span>
         </div>
         <div className="TimeSlots">
-          {
-            timeslots.map(timeslot => (
-              <div className="TimeSlot" key={`${stage}:${timeslot.timeslot[0]}`}>
-                <DisplayDate date={timeslot.date} />
-                <span style={{ paddingLeft: '1em' }}>{timeslot.timeslot[0]} - {timeslot.timeslot[1]}</span>
-              </div>
-            ))
-          }
+          <MapTimeslots timeslots={timeslots} stage={stage} />
         </div>
       </div>
     ));
