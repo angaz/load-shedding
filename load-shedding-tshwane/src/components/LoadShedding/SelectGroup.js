@@ -5,8 +5,6 @@ import './SelectGroup.css';
 
 
 const TableRows = ({ filterGroups, setGroup }) => {
-  console.log(filterGroups);
-
   const searchStr = new RegExp(filterGroups.replace(' ', '.*?'), 'i');
 
   return Groups
