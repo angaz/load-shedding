@@ -67,7 +67,7 @@ export default () => {
 
   if (stage === 0) {
     return (
-      <div>
+      <div className="LoadShedding">
         <div>
           <h1>Yay! No load shedding!</h1>
         </div>
@@ -81,13 +81,13 @@ export default () => {
   const nextTimeSlots = nextLoadShedding();
 
   return (
-    <div style={{ minHeight: '100%' }}>
+    <div className="LoadShedding">
       <h1>Stage {stage}</h1>
       <h2 style={{color: nextTimeSlots[0].current ? 'red' : 'inherit'}}>
         There is currently {nextTimeSlots[0].current ? '' : 'no'} load shedding
       </h2>
 
-      <div style={{display: 'flex', flexDirection: 'column' }}>
+      <div style={{display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h4>Next Load Shedding is scheduled for</h4>
           <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
