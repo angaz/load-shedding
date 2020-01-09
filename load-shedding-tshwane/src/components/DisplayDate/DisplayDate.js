@@ -14,9 +14,9 @@ const getDate = date => {
 const getDay = date => [
   'Sunday',
   'Monday',
-  'Tueday',
-  'Wedday',
-  'Thusday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
   'Friday',
   'Saturday',
 ][date.getDay()];
