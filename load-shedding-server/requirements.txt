@@ -4,4 +4,4 @@ aiosqlite==0.8.0
 cchardet==2.1.4
 py-vapid==1.4.0
 http-ece==1.0.5
-cryptography==2.4.2
+cryptography==3.2
