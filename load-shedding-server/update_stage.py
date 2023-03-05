@@ -9,7 +9,7 @@ from db import db_get, db_set, async_save_data
 from async_web_push import web_push_many
 
 
-STATUS_URL = 'http://loadshedding.eskom.co.za/LoadShedding/GetStatus'
+STATUS_URL = 'https://loadshedding.eskom.co.za/LoadShedding/GetStatus'
 
 
 def status_url():
@@ -51,10 +51,8 @@ async def update_stage():
                             await push(old_stage, stage)
 
                     except ValueError as e:
-                        print(f'[{datetime.now()}] {e}')
-                        continue
-
+                        print(f'[{datetime.now()}] :54 {e}')
             except Exception as e:
-                print(f'[{datetime.now()}] {e}')
+                print(f'[{datetime.now()}] :58 {e}')
 
             await asyncio.sleep(300)

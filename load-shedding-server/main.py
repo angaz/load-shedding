@@ -49,4 +49,4 @@ app.add_routes([
     web.post('/subscribe', subscribe),
 ])
 
-web.run_app(app)
+web.run_app(app, port=8300)
